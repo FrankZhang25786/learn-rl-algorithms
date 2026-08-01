@@ -18,7 +18,8 @@ def plot_all(values, conf, labels, xlabel, ylabel, title, iteration):
             val = values[env][i]
             val_df = pd.DataFrame({f"vals_{i}": val[i] for i in range(len(val))})
 
-            val_ewm = val_df.ewm(span=200, axis=0).mean().to_numpy().T
+            ##val_ewm = val_df.ewm(span=200, axis=0).mean().to_numpy().T
+            val_ewm = val_df.ewm(span=200).mean().to_numpy().T
 
             mean = val_ewm.mean(0)
 

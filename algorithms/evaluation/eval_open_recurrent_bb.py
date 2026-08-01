@@ -660,7 +660,8 @@ def eval_func(envs, num_runs=8, iteration=0, title="", meta_params=None, hsize=1
             metrics["returned_episode_returns"].mean(-1).mean(-1).reshape(num_runs, -1)
         )
         returns_list[env].append(returns[:])
-        save_dir = f"save_files/eval/{str(datetime.now()).replace(' ', '_')}"
+        ##save_dir = f"save_files/eval/{str(datetime.now()).replace(' ', '_')}"
+        save_dir = f"save_files/eval/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
         os.makedirs(f"{save_dir}", exist_ok=True)
         jnp.save(
             osp.join(save_dir, f"returns_{env}.npy"),

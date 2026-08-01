@@ -5,3 +5,22 @@ outputs/
 **/__pycache__/
 **.npy
 artifacts
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Experiment outputs
+save_files/
+wandb/
+*.npy
+*.npz
+*.ckpt

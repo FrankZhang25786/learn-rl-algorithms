@@ -671,7 +671,8 @@ if __name__ == "__main__":
 
     save_loc = "save_files/open_recurrent_bb"
     os.makedirs(save_loc, exist_ok=True)
-    save_dir = f"{save_loc}/{str(datetime.now()).replace(' ', '_')}"
+    ##save_dir = f"{save_loc}/{str(datetime.now()).replace(' ', '_')}"
+    save_dir = f"{save_loc}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
     os.mkdir(f"{save_dir}")
 
     popsize = args.popsize
