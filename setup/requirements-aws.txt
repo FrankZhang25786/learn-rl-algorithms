@@ -1,0 +1,31 @@
+# Python 3.11, Linux x86_64, NVIDIA T4
+# Install JAX separately first using the documented installation order.
+
+# Numerical foundation
+numpy==1.26.4
+scipy==1.13.1
+
+# JAX ecosystem
+jax[cuda12]==0.4.29
+flax==0.8.5
+optax==0.2.3
+chex==0.1.86
+
+# Environments and evolutionary strategies
+evosax==0.1.4
+gymnax==0.0.8
+brax==0.10.4
+mujoco==3.1.6
+
+# Distributions
+distrax==0.1.5
+tensorflow-probability==0.24.0
+
+# Repository-local optimizer dependencies
+gin-config==0.5.0
+
+# Logging, evaluation and plotting
+wandb==0.17.4
+matplotlib==3.9.1
+pandas==2.2.2
+tqdm==4.66.4
