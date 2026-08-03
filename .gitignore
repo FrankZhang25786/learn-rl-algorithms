@@ -24,3 +24,18 @@ wandb/
 *.npy
 *.npz
 *.ckpt
+
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+
+# Additional experiment folders
+output/
+checkpoint/
+checkpoints/
+
+# Model weights
+*.pt
+*.pth
