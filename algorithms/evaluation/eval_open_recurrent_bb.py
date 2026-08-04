@@ -161,8 +161,9 @@ def symlog(x):
 
 def make_train(config):
 
-    config["NUM_UPDATES"] = (
-        config["TOTAL_TIMESTEPS"] // config["NUM_STEPS"] // config["NUM_ENVS"]
+    config["NUM_UPDATES"] = config.get(
+        "ADAPTATION_UPDATES",
+        config["TOTAL_TIMESTEPS"] // config["NUM_STEPS"] // config["NUM_ENVS"],
     )
     config["MINIBATCH_SIZE"] = (
         config["NUM_ENVS"] * config["NUM_STEPS"] // config["NUM_MINIBATCHES"]
@@ -390,11 +391,11 @@ def make_train(config):
                     training_prop = (
                         train_state_actor.iteration
                         // (config["NUM_MINIBATCHES"] * config["UPDATE_EPOCHS"])
-                    ) / (config["NUM_UPDATES"] - 1)
+                    ) / max(config["NUM_UPDATES"] - 1, 1)
                     batch_prop = (
                         (train_state_actor.iteration // config["NUM_MINIBATCHES"])
                         % config["UPDATE_EPOCHS"]
-                    ) / (config["UPDATE_EPOCHS"] - 1)
+                    ) / max(config["UPDATE_EPOCHS"] - 1, 1)
 
                     grad_fn = jax.value_and_grad(_loss_fn, has_aux=True, argnums=[0, 1])
                     (total_loss, (actor_activations, critic_activations)), (
@@ -587,12 +588,55 @@ def make_train(config):
             _update_step, runner_state, None, config["NUM_UPDATES"]
         )
 
+        def _eval_env_step(runner_state, unused):
+            (
+                train_state_actor,
+                train_state_critic,
+                env_state,
+                last_obs,
+                last_done,
+                rng,
+            ) = runner_state
+            rng, _rng = jax.random.split(rng)
+            pi, _ = actor.apply(train_state_actor.params, last_obs)
+            action = pi.sample(seed=_rng)
+            rng, _rng = jax.random.split(rng)
+            rng_step = jax.random.split(_rng, config["NUM_ENVS"])
+            obsv, env_state, _, done, info = env.step(
+                rng_step, env_state, action, env_params
+            )
+            runner_state = (
+                train_state_actor,
+                train_state_critic,
+                env_state,
+                obsv,
+                done,
+                rng,
+            )
+            return runner_state, info
+
+        runner_state, metric = jax.lax.scan(
+            _eval_env_step, runner_state, None, config["NUM_STEPS"]
+        )
+
         return runner_state, metric
 
     return train
 
 
-def eval_func(envs, num_runs=8, iteration=0, title="", meta_params=None, hsize=16):
+def eval_func(
+    envs,
+    num_runs=8,
+    iteration=0,
+    title="",
+    meta_params=None,
+    hsize=16,
+    seed=42,
+    adaptation_updates=1,
+):
+
+    if adaptation_updates < 1:
+        raise ValueError("adaptation_updates must be at least 1")
 
     pmap = jax.local_device_count() > 1
     returns_list = dict()
@@ -618,9 +662,10 @@ def eval_func(envs, num_runs=8, iteration=0, title="", meta_params=None, hsize=1
         returns_list.update({envs[i]: []})
         runtimes.update({envs[i]: []})
 
-        rng = jax.random.PRNGKey(42)
+        rng = jax.random.PRNGKey(seed)
         all_configs[f"{env}"]["VISUALISE"] = True
         all_configs[f"{env}"]["OPTIM_HSIZE"] = hsize
+        all_configs[f"{env}"]["ADAPTATION_UPDATES"] = adaptation_updates
 
         start = time.time()
         rngs = jax.random.split(rng, num_runs)
@@ -694,6 +739,8 @@ if __name__ == "__main__":
     parser.add_argument("--exp-num", type=int, default=None)
     parser.add_argument("--hsize", type=int, default=128)
     parser.add_argument("--num-runs", type=int, default=16)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--adaptation-updates", type=int, default=1)
 
     args = parser.parse_args()
 
@@ -738,4 +785,6 @@ if __name__ == "__main__":
         num_runs=args.num_runs,
         iteration=0,
         hsize=args.hsize,
+        seed=args.seed,
+        adaptation_updates=args.adaptation_updates,
     )
