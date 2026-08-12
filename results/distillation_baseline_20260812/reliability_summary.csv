@@ -1,0 +1,6 @@
+﻿model,mean_cartpole_return,n
+Teacher,389.984375,16
+h32_seq20,119.71875,16
+h32_seq100,71.203125,16
+h16_seq20,201.5625,16
+h16_seq100,152.875,16
