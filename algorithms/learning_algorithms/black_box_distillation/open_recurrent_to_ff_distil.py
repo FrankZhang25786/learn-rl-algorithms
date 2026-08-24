@@ -46,9 +46,7 @@ def transform_data_OPEN(p, g, mom, dorm, layer_prop, train_prop, batch_prop):
 
     train_prop = jnp.expand_dims(train_prop, -1)
     batch_prop = jnp.expand_dims(batch_prop, -1)
-    inp = jnp.concatenate(
-        [train_prop, layer_prop, batch_prop, dorm], axis=-1
-    )
+    inp = jnp.concatenate([train_prop, layer_prop, batch_prop, dorm], axis=-1)
     return jnp.concatenate([inp_stack_g, inp], axis=-1)
 
 
@@ -89,15 +87,21 @@ class RecurrentOPENTeacher:
 class FeedForwardStudent(nn.Module):
     hsize: int = 32
 
-    @nn.compact
+    def setup(self):
+        self.distil = nn.Sequential(
+            [
+                nn.Dense(self.hsize),
+                nn.LayerNorm(),
+                nn.relu,
+                nn.Dense(self.hsize),
+                nn.LayerNorm(),
+                nn.relu,
+                nn.Dense(3),
+            ]
+        )
+
     def __call__(self, x):
-        x = nn.Dense(self.hsize)(x)
-        x = nn.LayerNorm()(x)
-        x = nn.relu(x)
-        x = nn.Dense(self.hsize)(x)
-        x = nn.LayerNorm()(x)
-        x = nn.relu(x)
-        return nn.Dense(3)(x)
+        return self.distil(x)
 
 
 def get_teacher_sequence(key, points, seq_length):
@@ -175,8 +179,6 @@ def get_teacher_sequence(key, points, seq_length):
             carry=new_carry,
             rng=rng,
         )
-        # These are the exogenous quantities needed to construct the student's
-        # current 19-D input at the same synthetic optimisation step.
         xs = (g, new_mom.m, dorm, layer_props, train_prop, batch_prop, rand)
         return new_state, xs
 
