@@ -249,6 +249,7 @@ if __name__ == "__main__":
     parser.add_argument("--iters", type=int, default=100)
     parser.add_argument("--num-batches", type=int, default=100)
     parser.add_argument("--seq-length", type=int, default=100)
+    parser.add_argument("--skip-eval", action="store_true")
     parser.add_argument(
         "--hsize", type=int, default=16
     )  # Control the size of the distilled network
@@ -468,13 +469,14 @@ if __name__ == "__main__":
             key=key,
         )
 
-        returns = eval_func(
-            envs=config["envs"],
-            meta_params=params,
-            iteration=i,
-            title="",
-            hsize=args.hsize,
-        )
+        if not args.skip_eval:
+            returns = eval_func(
+                envs=config["envs"],
+                meta_params=params,
+                iteration=i,
+                title="",
+                hsize=args.hsize,
+            )
 
         save_loc = "save_files/open_recurrent_distil"
         os.makedirs(save_loc, exist_ok=True)
