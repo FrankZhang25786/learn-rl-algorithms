@@ -455,9 +455,9 @@ if __name__ == "__main__":
                 )
             wandb.log({"train_loss": epoch_loss, "test_loss": test_loss}, step=i)
 
-            return params, opt_state
+            return params, opt_state, key
 
-        params, opt_state = train_recurrent(
+        params, opt_state, key = train_recurrent(
             params=params,
             opt_state=opt_state,
             seq_length=args.seq_length,
