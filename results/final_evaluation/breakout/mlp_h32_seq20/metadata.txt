@@ -1,0 +1,24 @@
+environment: breakout
+condition: mlp_h32_seq20
+architecture: MLP
+student_hsize: 32
+distillation_seq_length: 20
+checkpoint_update: 900
+checkpoint: save_files/open_recurrent_to_ff_distil/2026-08-24_22-53-51.517510/curr_param_8.npy
+
+num_runs: 16
+seed_protocol: PRNGKey(42), matched across conditions
+
+evaluation_script: algorithms/evaluation/eval_open_ff_bb.py
+
+breakout_config:
+NUM_ENVS=64
+NUM_STEPS=128
+TOTAL_TIMESTEPS=10000000
+UPDATE_EPOCHS=4
+NUM_MINIBATCHES=8
+NUM_UPDATES=1220
+actor_critic_hsize=64
+
+runtime_seconds: 540.5069177150726
+printed_learned_fitness: 6.9736328125

@@ -1,0 +1,6 @@
+condition,architecture,hsize,seq_length,checkpoint_update,num_runs,runtime_seconds,learned_fitness
+teacher,recurrent_OPEN_teacher,32,NA,pretrained,16,840.4225194454193,56.3408203125
+rnn_h32_seq20,RNN,32,20,900,16,833.3229279518127,0.076171875
+rnn_h32_seq100,RNN,32,100,900,16,832.9268276691437,0.3876953125
+mlp_h32_seq20,MLP,32,20,900,16,540.5069177150726,6.9736328125
+mlp_h32_seq100,MLP,32,100,900,16,538.6528680324554,7.7119140625

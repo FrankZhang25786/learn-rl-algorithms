@@ -1,0 +1,24 @@
+environment: breakout
+condition: rnn_h32_seq20
+architecture: RNN
+student_hsize: 32
+distillation_seq_length: 20
+checkpoint_update: 900
+checkpoint: save_files/open_recurrent_distil/2026-08-10_17:04:41.684883/curr_param_8.npy
+
+num_runs: 16
+seed_protocol: PRNGKey(42), matched across conditions
+
+evaluation_script: algorithms/evaluation/eval_open_recurrent_bb.py
+
+breakout_config:
+NUM_ENVS=64
+NUM_STEPS=128
+TOTAL_TIMESTEPS=10000000
+UPDATE_EPOCHS=4
+NUM_MINIBATCHES=8
+NUM_UPDATES=1220
+actor_critic_hsize=64
+
+runtime_seconds: 833.3229279518127
+printed_learned_fitness: 0.076171875

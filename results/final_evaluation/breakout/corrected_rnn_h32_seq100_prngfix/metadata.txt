@@ -1,0 +1,19 @@
+condition: corrected_rnn_h32_seq100_prngfix
+environment: breakout
+architecture: recurrent
+checkpoint: save_files/open_recurrent_distil/2026-09-01_01:27:41.643380/curr_param_8.npy
+checkpoint_sha256: d76343a26fb3f0643819b581dfdb30b5ef9b66e201830219a50a8bbd108f9e2b
+source_commit: 529aa2257839dd8ba359600a0114d8232f2106e9
+hsize: 32
+distillation_seq_length: 100
+checkpoint_update: 900
+num_runs: 16
+seed_protocol: PRNGKey(42), split into 16 matched run keys
+evaluator: algorithms/evaluation/eval_open_recurrent_bb.py
+config: NUM_ENVS=64, NUM_STEPS=128, TOTAL_TIMESTEPS=10000000, UPDATE_EPOCHS=4, NUM_MINIBATCHES=8
+runtime_seconds: 818.9505987167358
+learned_fitness: 0.4208984375
+returns_file: returns_breakout.npy
+returns_shape: (16, 1220)
+returns_finite: true
+returns_sha256: ef86b055c2db338b57e3ae73342f82dbf27ff9cdbe65de0b98f283b5f5d44bb6

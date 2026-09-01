@@ -1,0 +1,24 @@
+environment: breakout
+condition: teacher
+architecture: recurrent_OPEN_teacher
+student_hsize: 32
+distillation_seq_length: NA
+checkpoint_update: pretrained
+checkpoint: save_files/pretrained/multi_OPEN.npy
+
+num_runs: 16
+seed_protocol: PRNGKey(42), matched across conditions
+
+evaluation_script: algorithms/evaluation/eval_open_recurrent_bb.py
+
+breakout_config:
+NUM_ENVS=64
+NUM_STEPS=128
+TOTAL_TIMESTEPS=10000000
+UPDATE_EPOCHS=4
+NUM_MINIBATCHES=8
+NUM_UPDATES=1220
+actor_critic_hsize=64
+
+runtime_seconds: 840.4225194454193
+printed_learned_fitness: 56.3408203125

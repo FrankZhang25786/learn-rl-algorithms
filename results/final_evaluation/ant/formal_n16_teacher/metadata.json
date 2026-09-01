@@ -1,0 +1,39 @@
+{
+  "condition": "formal_n16_teacher",
+  "architecture": "recurrent",
+  "checkpoint": "/home/ubuntu/projects/learn-rl-algorithms/save_files/pretrained/multi_OPEN.npy",
+  "checkpoint_sha256": "9ba2dea70b0b308a365516dab092808b7b9211c70072bca934d83affaee5f60c",
+  "parameter_count": 3571,
+  "optimizer_hsize": 32,
+  "num_runs": 16,
+  "rng_base_key": 42,
+  "environment": "ant",
+  "config": {
+    "ENV_NAME": "Brax-ant",
+    "NUM_ENVS": 2048,
+    "NUM_STEPS": 10,
+    "TOTAL_TIMESTEPS": 30000000.0,
+    "UPDATE_EPOCHS": 4,
+    "NUM_MINIBATCHES": 32,
+    "GAMMA": 0.99,
+    "GAE_LAMBDA": 0.95,
+    "CLIP_EPS": 0.2,
+    "ENT_COEF": 0.0,
+    "VF_COEF": 0.5,
+    "MAX_GRAD_NORM": 0.5,
+    "ACTIVATION": "tanh",
+    "HSIZE": 64,
+    "CONTINUOUS": true,
+    "NORMALIZE": true,
+    "CLIP_ACTION": true
+  },
+  "num_updates": 1464,
+  "started_at": "2026-09-01T03:25:50.638549",
+  "completed_at": "2026-09-01T04:36:10.732259",
+  "source_returns_file": "save_files/eval/2026-09-01_04-36-09/returns_ant.npy",
+  "archived_returns_file": "results/final_evaluation/ant/formal_n16_teacher/returns_ant.npy",
+  "returns_shape": [
+    16,
+    1464
+  ]
+}

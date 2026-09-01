@@ -1,0 +1,19 @@
+condition: corrected_rnn_h32_seq20_prngfix
+environment: cartpole
+architecture: recurrent
+checkpoint: save_files/open_recurrent_distil/2026-09-01_00:48:04.331554/curr_param_8.npy
+checkpoint_sha256: 4b6651c4a1ec5b133915e6a7230ff0507929c3b98ffe02ee6031c39de357416c
+source_commit: 529aa2257839dd8ba359600a0114d8232f2106e9
+hsize: 32
+distillation_seq_length: 20
+checkpoint_update: 900
+num_runs: 16
+seed_protocol: PRNGKey(42), split into 16 matched run keys
+evaluator: algorithms/evaluation/eval_open_recurrent_bb.py
+config: NUM_ENVS=4, NUM_STEPS=128, TOTAL_TIMESTEPS=500000, UPDATE_EPOCHS=4, NUM_MINIBATCHES=4
+runtime_seconds: 73.58940386772156
+learned_fitness: 82.421875
+returns_file: returns_cartpole.npy
+returns_shape: (16, 976)
+returns_finite: true
+returns_sha256: 0ddb2006610fc80468e5089d990f7893e267f3f496615e7665ee6ecd9bfa63f3

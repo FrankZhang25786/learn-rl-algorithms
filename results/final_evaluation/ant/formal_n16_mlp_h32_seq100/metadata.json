@@ -1,0 +1,39 @@
+{
+  "condition": "formal_n16_mlp_h32_seq100",
+  "architecture": "ff",
+  "checkpoint": "/home/ubuntu/projects/learn-rl-algorithms/save_files/open_recurrent_to_ff_distil/2026-08-25_00-11-42.707317/curr_param_8.npy",
+  "checkpoint_sha256": "27f1afe74fd55b3377eec57d6e73360786773da1e639840f4aef2c08b394ec1d",
+  "parameter_count": 1923,
+  "optimizer_hsize": 32,
+  "num_runs": 16,
+  "rng_base_key": 42,
+  "environment": "ant",
+  "config": {
+    "ENV_NAME": "Brax-ant",
+    "NUM_ENVS": 2048,
+    "NUM_STEPS": 10,
+    "TOTAL_TIMESTEPS": 30000000.0,
+    "UPDATE_EPOCHS": 4,
+    "NUM_MINIBATCHES": 32,
+    "GAMMA": 0.99,
+    "GAE_LAMBDA": 0.95,
+    "CLIP_EPS": 0.2,
+    "ENT_COEF": 0.0,
+    "VF_COEF": 0.5,
+    "MAX_GRAD_NORM": 0.5,
+    "ACTIVATION": "tanh",
+    "HSIZE": 64,
+    "CONTINUOUS": true,
+    "NORMALIZE": true,
+    "CLIP_ACTION": true
+  },
+  "num_updates": 1464,
+  "started_at": "2026-09-01T08:04:50.064492",
+  "completed_at": "2026-09-01T09:11:48.343480",
+  "source_returns_file": "save_files/eval/2026-09-01_09:11:46.910850/returns_ant.npy",
+  "archived_returns_file": "results/final_evaluation/ant/formal_n16_mlp_h32_seq100/returns_ant.npy",
+  "returns_shape": [
+    16,
+    1464
+  ]
+}
